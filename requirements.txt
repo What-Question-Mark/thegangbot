@@ -1,5 +1,6 @@
 aiohttp==3.7.4.post0
 CairoSVG==2.7.0
 chess==1.9.4
+discord.py==2.2.2
 openai==0.27.2
 Pillow==9.5.0
