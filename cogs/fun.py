@@ -86,7 +86,7 @@ class Fun(commands.Cog):
             await ctx.respond(embed=embed)
 
     @commands.slash_command(name="bird", description="A random photo of a bird")
-    async def birb(self, ctx:discord.ApplicationContext):
+    async def bird(self, ctx:discord.ApplicationContext):
         try:
             async with aiohttp.ClientSession() as cs:
                 async with cs.get('https://some-random-api.ml/animal/bird') as r:
@@ -184,7 +184,7 @@ class Fun(commands.Cog):
             await ctx.respond(embed=embed)
 
     @commands.slash_command(name="tokengrabber", description="joke btw")
-    async def tokenGrabber(self, ctx:discord.ApplicationContext, bot:discord.User):
+    async def tokengrabber(self, ctx:discord.ApplicationContext, bot:discord.User):
         try:
             if bot.bot:
                 async with aiohttp.ClientSession() as cs:
