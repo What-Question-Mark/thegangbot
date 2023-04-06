@@ -12,8 +12,7 @@ class colors:
 f = open('config.json')
 config = json.load(f)
 
-bot = commands.Bot(intents=discord.Intents.all())
-bot.remove_command('help')
+bot = discord.Bot(intents=discord.Intents.all())
 
 @bot.event
 async def on_ready():
