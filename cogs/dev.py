@@ -16,6 +16,8 @@ colours = {
     "PINK": 0xf10ef1
 }
 
+start_time = time.time()
+
 class Dev(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -49,6 +51,16 @@ class Dev(commands.Cog):
     async def ping(self, ctx:discord.ApplicationContext):
         try:
             embed = discord.Embed(description=f"Pong 🏓 **|** `{round(self.bot.latency * 1000)}ms`", color=colours["BLUE"])
+            await ctx.respond(embed=embed)
+        except Exception as e:
+            embed=discord.Embed(color=colours["RED"])
+            embed.add_field(name="Failed", value=f"```py\n{e}\n```", inline=True)
+            await ctx.respond(embed=embed)
+            
+    @commands.slash_command(name="uptime", description="Get the uptime of the bot")
+    async def uptime(self, ctx:discord.ApplicationContext):
+        try:
+            embed = discord.Embed(description=f"The bot started <t:{round(start_time)}:R> 🕒", color=colours["BLUE"])
             await ctx.respond(embed=embed)
         except Exception as e:
             embed=discord.Embed(color=colours["RED"])
