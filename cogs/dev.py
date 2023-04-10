@@ -51,18 +51,24 @@ class Dev(commands.Cog):
     async def eloop(self, ctx:discord.ApplicationContext, amount:int, *, code):
         try:
             if ctx.author.id in config["EVAL"]:
-                try:
-                    for i in range(amount):
-                        res = await eval(code)
-                    embed=discord.Embed(title="Success", color=colours["GREEN"])
-                    embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
-                    embed.add_field(name="Response:", value=f"```html\n{res}\n```", inline=False)
-                    await ctx.respond(embed=embed)          
-                except Exception as e:
+                if amount > 25 or amount < 1:
                     embed=discord.Embed(title="Failed", color=colours["RED"])
                     embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
-                    embed.add_field(name="Response:", value=f"```py\n{e}\n```", inline=False)
+                    embed.add_field(name="Response:", value=f"```py\nThat is too many times, try less than 25\n```", inline=False)
                     await ctx.respond(embed=embed)
+                else:
+                    try:
+                        for i in range(amount):
+                            res = await eval(code)
+                        embed=discord.Embed(title="Success", color=colours["GREEN"])
+                        embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
+                        embed.add_field(name="Response:", value=f"```html\n{res}\n```", inline=False)
+                        await ctx.respond(embed=embed)          
+                    except Exception as e:
+                        embed=discord.Embed(title="Failed", color=colours["RED"])
+                        embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
+                        embed.add_field(name="Response:", value=f"```py\n{e}\n```", inline=False)
+                        await ctx.respond(embed=embed)
             else:
                 embed=discord.Embed(title="Failed", color=colours["RED"])
                 embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
