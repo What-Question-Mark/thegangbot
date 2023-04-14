@@ -19,24 +19,6 @@ colours = {
     "PINK": 0xf10ef1
 }
 
-class ButtonBack(Button):
-    def __init__(self):
-        super().__init__(emoji="⬅️", style=discord.ButtonStyle.blurple, disabled=False)
-    
-    async def callback(self, interaction):
-        await interaction.followup.send_message(content="hi")
-
-class ButtonNext(Button):
-    def __init__(self):
-        super().__init__(emoji="➡️", style=discord.ButtonStyle.blurple, disabled=False)
-
-class ButtonGoto(Button):
-    def __init__(self, url):
-        super().__init__(label="Open Page", url=url)
-    
-    async def callback(self, interaction):
-        await interaction.followup.send_message(content="bye")
-
 class Irl(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -64,8 +46,8 @@ class Irl(commands.Cog):
     
     @commands.slash_command(name="news", description="real stuff")
     async def news(self, ctx:discord.ApplicationContext):
-        i = 0
         try:
+            i = 0
             async with aiohttp.ClientSession() as cs:
                 async with cs.get(f'https://api.nytimes.com/svc/topstories/v2/home.json?api-key={config["NEWS"]}') as r:
                     res = await r.json()
@@ -75,19 +57,45 @@ class Irl(commands.Cog):
             embed.set_image(url=res['results'][i]['multimedia'][0]['url'])
             embed.set_footer(text=res["copyright"])
 
-            '''
-            button_back = ButtonBack()
-            button_goto = ButtonGoto(res["results"][i]["url"])
-            button_next = ButtonNext()
-            '''
+            button_back = Button(emoji="⬅️", style=discord.ButtonStyle.blurple)
+            button_next = Button(emoji="➡️", style=discord.ButtonStyle.blurple)
+
+            async def button_back_callback(interaction):
+                nonlocal i, button_back, button_next 
+                if interaction.user.id != ctx.author.id:
+                    embed=discord.Embed(title="Failed", color=colours["RED"])
+                    embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
+                    embed.add_field(name="Response:", value=f"```py\n{interaction.author}, you are not allowed to do this\n```", inline=False)
+                    await interaction.followup.send(embed=embed)
+                else:
+                    i -= 1
+                    embed=discord.Embed(title=f"{res['results'][i]['title']}", description=res['results'][i]['abstract'], color=colours["GREEN"])
+                    embed.set_thumbnail(url=res['results'][i]['multimedia'][2]["url"])
+                    embed.set_image(url=res['results'][i]['multimedia'][0]['url'])
+                    embed.set_footer(text=res['copyright'])
+                    await interaction.response.edit_message(embed=embed, view=view)
+
+            async def button_next_callback(interaction):
+                nonlocal i, button_back, button_next 
+                if interaction.user.id != ctx.author.id:
+                    embed=discord.Embed(title="Failed", color=colours["RED"])
+                    embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
+                    embed.add_field(name="Response:", value=f"```py\n{interaction.author}, you are not allowed to do this\n```", inline=False)
+                    await interaction.followup.send(embed=embed)
+                else:
+                    i += 1
+                    embed=discord.Embed(title=f"{res['results'][i]['title']}", description=res['results'][i]['abstract'], color=colours["GREEN"])
+                    embed.set_thumbnail(url=res['results'][i]['multimedia'][2]["url"])
+                    embed.set_image(url=res['results'][i]['multimedia'][0]['url'])
+                    embed.set_footer(text=res['copyright'])
+                    await interaction.response.edit_message(embed=embed, view=view)
+                
+            button_back.callback = button_back_callback
+            button_next.callback = button_next_callback
 
             view=View()
-            '''
             view.add_item(button_back)
-            view.add_item(button_goto)
             view.add_item(button_next)
-            '''
-
             await ctx.respond(embed=embed, view=view)
         except Exception as e:
             embed=discord.Embed(color=colours["RED"])

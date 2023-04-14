@@ -26,40 +26,14 @@ class Dev(commands.Cog):
     async def e(self, ctx:discord.ApplicationContext, *, code):
         try:
             if ctx.author.id in config["EVAL"]:
-                try:
-                    res = await eval(code)
-                    embed=discord.Embed(title="Success", color=colours["GREEN"])
-                    embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
-                    embed.add_field(name="Response:", value=f"```html\n{res}\n```", inline=False)
-                    await ctx.respond(embed=embed)          
-                except Exception as e:
+                if "config" in code:
                     embed=discord.Embed(title="Failed", color=colours["RED"])
                     embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
-                    embed.add_field(name="Response:", value=f"```py\n{e}\n```", inline=False)
-                    await ctx.respond(embed=embed)
-            else:
-                embed=discord.Embed(title="Failed", color=colours["RED"])
-                embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
-                embed.add_field(name="Response:", value=f"```py\nYou don't have permission to do this\n```", inline=False)
-                await ctx.respond(embed=embed)
-        except Exception as e:
-            embed=discord.Embed(color=colours["RED"])
-            embed.add_field(name="Failed", value=f"```py\n{e}\n```", inline=True)
-            await ctx.respond(embed=embed)
-
-    @commands.slash_command(name="evalloop", description="Evaluate some code")
-    async def eloop(self, ctx:discord.ApplicationContext, amount:int, *, code):
-        try:
-            if ctx.author.id in config["EVAL"]:
-                if amount > 25 or amount < 1:
-                    embed=discord.Embed(title="Failed", color=colours["RED"])
-                    embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
-                    embed.add_field(name="Response:", value=f"```py\nThat is too many times, try less than 25\n```", inline=False)
+                    embed.add_field(name="Response:", value=f"```py\nYou are not allowed to do this\n```", inline=False)
                     await ctx.respond(embed=embed)
                 else:
                     try:
-                        for i in range(amount):
-                            res = await eval(code)
+                        res = await eval(code)
                         embed=discord.Embed(title="Success", color=colours["GREEN"])
                         embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
                         embed.add_field(name="Response:", value=f"```html\n{res}\n```", inline=False)
@@ -72,7 +46,7 @@ class Dev(commands.Cog):
             else:
                 embed=discord.Embed(title="Failed", color=colours["RED"])
                 embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
-                embed.add_field(name="Response:", value=f"```py\nYou don't have permission to do this\n```", inline=False)
+                embed.add_field(name="Response:", value=f"```py\nYou are not allowed to do this\n```", inline=False)
                 await ctx.respond(embed=embed)
         except Exception as e:
             embed=discord.Embed(color=colours["RED"])
