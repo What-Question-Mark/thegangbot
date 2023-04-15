@@ -32,11 +32,31 @@ class Fun(commands.Cog):
             await ctx.respond(embed=embed)
 
     @commands.slash_command(name="echo", description="Display message on screen, writes each given STRING to standard output.")
-    async def echo(self, ctx:discord.ApplicationContext, message=None):
+    async def echo(self, ctx:discord.ApplicationContext, message):
+        try:
+            await ctx.respond(f"{message}")
+        except Exception as e:
+            embed=discord.Embed(color=colours["RED"])
+            embed.add_field(name="Failed", value=f"```py\n{e}\n```", inline=True)
+            await ctx.respond(embed=embed)
+
+    @commands.slash_command(name="j", description="/j")
+    async def j(self, ctx:discord.ApplicationContext, message=None):
         try:
             if message == None: 
                 message = " "
-            await ctx.respond(f"{message}")
+            await ctx.respond(f"{message} /j")
+        except Exception as e:
+            embed=discord.Embed(color=colours["RED"])
+            embed.add_field(name="Failed", value=f"```py\n{e}\n```", inline=True)
+            await ctx.respond(embed=embed)
+
+    @commands.slash_command(name="raisedeyebrow", description="🤨")
+    async def raisedeyebrow(self, ctx:discord.ApplicationContext, message=None):
+        try:
+            if message == None: 
+                message = " "
+            await ctx.respond(f"{message} 🤨")
         except Exception as e:
             embed=discord.Embed(color=colours["RED"])
             embed.add_field(name="Failed", value=f"```py\n{e}\n```", inline=True)

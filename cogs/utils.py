@@ -17,6 +17,14 @@ colours = {
     "PINK": 0xf10ef1
 }
 
+class colors:
+    END = '\033[0m'
+    FAIL = '\033[91m'
+    OKGREEN = '\033[92m'
+    OKYELLOW = '\033[93'
+    OKBLUE = '\033[94m'
+    OKPINK = '\033[95m'
+
 class Utils(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -136,6 +144,36 @@ class Utils(commands.Cog):
             embed=discord.Embed(color=colours["RED"])
             embed.add_field(name="Failed", value=f"```py\n{e}\n```", inline=True)
             await ctx.respond(embed=embed)
+
+    @commands.slash_command(name="consolechat", description="Chat in the console")
+    @commands.is_owner()
+    async def consolechat(self, ctx:discord.ApplicationContext):
+        try:            
+            if ctx.author.id in config["OWNER"]:
+                print("\n")
+
+                await ctx.respond("Console Chat Activated", ephemeral=True)
+
+                while True:
+                    newMsg = input(f"{colors.OKPINK}$ {colors.END}")
+
+                    if newMsg == ".exit":
+                        break
+                    if newMsg.startswith(".eval"):
+                        evalText = newMsg.replace(".eval", "")
+                        await eval(evalText)
+                        continue
+                    else:
+                        await ctx.send(newMsg)
+            else:
+                embed=discord.Embed(title="Failed", color=colours["RED"])
+                embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
+                embed.add_field(name="Response:", value=f"```py\nYou are not allowed to do this\n```", inline=False)
+                await ctx.respond(embed=embed)
+        except Exception as e:
+            embed=discord.Embed(color=colours["RED"])
+            embed.add_field(name="Failed", value=f"```py\n{e}\n```", inline=True)
+            await ctx.respond(embed=embed, ephemeral=True)
 
 def setup(bot):
     bot.add_cog(Utils(bot))

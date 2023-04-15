@@ -3,11 +3,12 @@ from discord.ext import commands
 from discord.utils import get
 
 class colors:
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
     END = '\033[0m'
+    FAIL = '\033[91m'
+    OKGREEN = '\033[92m'
+    OKYELLOW = '\033[93'
+    OKBLUE = '\033[94m'
+    OKPINK = '\033[95m'
 
 f = open('config.json')
 config = json.load(f)
@@ -23,10 +24,10 @@ print('\n')
 
 for f in os.listdir("./cogs"):
     if f.endswith(".py"):
-        #try:
-        bot.load_extension("cogs." + f[:-3])
-        print(f"{colors.OKBLUE}Loaded: {f[:-3]}.py{colors.END}")
-        #except Exception as e:
-        #    print(f"\n{colors.FAIL}Couldn't load {f[:-3]}.py: {e}{colors.END}\n")
+        try:
+            bot.load_extension("cogs." + f[:-3])
+            print(f"{colors.OKBLUE}Loaded: {f[:-3]}.py{colors.END}")
+        except Exception as e:
+            print(f"\n{colors.FAIL}Couldn't load {f[:-3]}.py: {e}{colors.END}\n")
 
 bot.run(config["TOKEN"])

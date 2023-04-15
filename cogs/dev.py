@@ -81,7 +81,7 @@ class Dev(commands.Cog):
             embed.add_field(name="AI", value="> `chatgpt`, `resetchatcontext`", inline=False)
             embed.add_field(name="Bored", value="> `topic`, `randomgame`, `codingchallange`", inline=False)
             embed.add_field(name="Dev", value="> `eval`, `ping`, `help`", inline=False)
-            embed.add_field(name="Fun", value="> `ararou`, `nutrate`, `susrate`, `cat`, `dog`, `bird`, `tweet`, `jail`, `megamind`, `joke`, `lyrics`, `pokedex`, `tokengrabber`", inline=False)
+            embed.add_field(name="Fun", value="> `ararou`, `echo`, `j`, `raisedeyebrow`, `nutrate`, `susrate`, `cat`, `dog`, `bird`, `tweet`, `jail`, `megamind`, `joke`, `lyrics`, `pokedex`, `tokengrabber`", inline=False)
             embed.add_field(name="IRL", value="> `weather`, `news`, `dictionary`", inline=False)
             embed.add_field(name="Party", value="> `createparty`, `deleteparty`", inline=False)
             embed.set_footer(text="These are all slash commands (e.g. /help)")
