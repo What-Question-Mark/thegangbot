@@ -23,7 +23,7 @@ class Dev(commands.Cog):
         self.bot = bot
 
     @commands.slash_command(name="eval", description="Evaluate some code")
-    async def e(self, ctx:discord.ApplicationContext, *, code):
+    async def e(self, ctx:discord.ApplicationContext, awaited:bool, *, code):
         try:
             if ctx.author.id in config["EVAL"]:
                 if "config" in code:
@@ -32,17 +32,30 @@ class Dev(commands.Cog):
                     embed.add_field(name="Response:", value=f"```py\nYou are not allowed to do this\n```", inline=False)
                     await ctx.respond(embed=embed)
                 else:
-                    try:
-                        res = await eval(code)
-                        embed=discord.Embed(title="Success", color=colours["GREEN"])
-                        embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
-                        embed.add_field(name="Response:", value=f"```html\n{res}\n```", inline=False)
-                        await ctx.respond(embed=embed)          
-                    except Exception as e:
-                        embed=discord.Embed(title="Failed", color=colours["RED"])
-                        embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
-                        embed.add_field(name="Response:", value=f"```py\n{e}\n```", inline=False)
-                        await ctx.respond(embed=embed)
+                    if awaited == True:
+                        try:
+                            res = await eval(code)
+                            embed=discord.Embed(title="Success", color=colours["GREEN"])
+                            embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
+                            embed.add_field(name="Response:", value=f"```html\n{res}\n```", inline=False)
+                            await ctx.respond(embed=embed)          
+                        except Exception as e:
+                            embed=discord.Embed(title="Failed", color=colours["RED"])
+                            embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
+                            embed.add_field(name="Response:", value=f"```py\n{e}\n```", inline=False)
+                            await ctx.respond(embed=embed)
+                    else:
+                        try:
+                            res = eval(code)
+                            embed=discord.Embed(title="Success", color=colours["GREEN"])
+                            embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
+                            embed.add_field(name="Response:", value=f"```html\n{res}\n```", inline=False)
+                            await ctx.respond(embed=embed)          
+                        except Exception as e:
+                            embed=discord.Embed(title="Failed", color=colours["RED"])
+                            embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
+                            embed.add_field(name="Response:", value=f"```py\n{e}\n```", inline=False)
+                            await ctx.respond(embed=embed)
             else:
                 embed=discord.Embed(title="Failed", color=colours["RED"])
                 embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
