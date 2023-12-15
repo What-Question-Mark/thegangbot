@@ -90,7 +90,7 @@ class Fun(commands.Cog):
     async def cat(self, ctx:discord.ApplicationContext):
         try:
             async with aiohttp.ClientSession() as cs:
-                async with cs.get("https://some-random-api.ml/animal/cat") as r:
+                async with cs.get("https://some-random-api.com/animal/cat") as r:
                     res = await r.json()
             em = discord.Embed(color=colours["TEAL"])
             em.add_field(name="Fun Fact:", value=res["fact"])
@@ -105,7 +105,7 @@ class Fun(commands.Cog):
     async def dog(self, ctx:discord.ApplicationContext):
         try:
             async with aiohttp.ClientSession() as cs:
-                async with cs.get('https://some-random-api.ml/animal/dog') as r:
+                async with cs.get('https://some-random-api.com/animal/dog') as r:
                     res = await r.json()
             em = discord.Embed(color=colours["TEAL"])
             em.add_field(name="Fun Fact:", value=res["fact"])
@@ -120,7 +120,7 @@ class Fun(commands.Cog):
     async def bird(self, ctx:discord.ApplicationContext):
         try:
             async with aiohttp.ClientSession() as cs:
-                async with cs.get('https://some-random-api.ml/animal/bird') as r:
+                async with cs.get('https://some-random-api.com/animal/bird') as r:
                     res = await r.json()
             em = discord.Embed(color=colours["TEAL"])       
             em.add_field(name="Fun Fact:", value=res["fact"])
@@ -135,7 +135,7 @@ class Fun(commands.Cog):
     async def tweet(self, ctx:discord.ApplicationContext, user:discord.User, message):
         try:
             em = discord.Embed(color=colours["TEAL"])       
-            em.set_image(url=f'https://some-random-api.ml/canvas/misc/tweet?comment={urllib.parse.quote(message)}&avatar={user.avatar}&username={user.name}&displayname={user}')
+            em.set_image(url=f'https://some-random-api.com/canvas/misc/tweet?comment={urllib.parse.quote(message)}&avatar={user.avatar}&username={user.name}&displayname={user}')
             await ctx.respond(embed=em)
         except Exception as e:
             embed=discord.Embed(color=colours["RED"])
@@ -146,7 +146,7 @@ class Fun(commands.Cog):
     async def jail(self, ctx:discord.ApplicationContext, user:discord.User):
         try:
             em = discord.Embed(color=colours["TEAL"])       
-            em.set_image(url=f'https://some-random-api.ml/canvas/overlay/jail?avatar={user.avatar}')
+            em.set_image(url=f'https://some-random-api.com/canvas/overlay/jail?avatar={user.avatar}')
             await ctx.respond(embed=em)
         except Exception as e:
             embed=discord.Embed(color=colours["RED"])
@@ -157,7 +157,7 @@ class Fun(commands.Cog):
     async def megamind(self, ctx:discord.ApplicationContext, message):
         try:
             em = discord.Embed(color=colours["TEAL"])       
-            em.set_image(url=f'https://some-random-api.ml/canvas/misc/nobitches?no={urllib.parse.quote(message)}')
+            em.set_image(url=f'https://some-random-api.com/canvas/misc/nobitches?no={urllib.parse.quote(message)}')
             await ctx.respond(embed=em)
         except Exception as e:
             embed=discord.Embed(color=colours["RED"])
@@ -168,7 +168,7 @@ class Fun(commands.Cog):
     async def joke(self, ctx:discord.ApplicationContext):
         try:
             async with aiohttp.ClientSession() as cs:
-                async with cs.get('https://some-random-api.ml/others/joke') as r:
+                async with cs.get('https://some-random-api.com/others/joke') as r:
                     res = await r.json()
             em = discord.Embed(title=res["joke"], color=colours["TEAL"]) 
             await ctx.respond(embed=em)
@@ -181,7 +181,7 @@ class Fun(commands.Cog):
     async def lyrics(self, ctx:discord.ApplicationContext, song:str):
         try:
             async with aiohttp.ClientSession() as cs:
-                async with cs.get(f'https://some-random-api.ml/others/lyrics?title={urllib.parse.quote(song)}') as r:
+                async with cs.get(f'https://some-random-api.com/others/lyrics?title={urllib.parse.quote(song)}') as r:
                     res = await r.json()
             em = discord.Embed(title=f"{res['title']} by {res['author']} lyrics", description=res["lyrics"], color=colours["TEAL"]) 
             em.set_thumbnail(url=res["thumbnail"]["genius"])
@@ -196,7 +196,7 @@ class Fun(commands.Cog):
     async def pokedex(self, ctx:discord.ApplicationContext, pokemon:str):
         try:
             async with aiohttp.ClientSession() as cs:
-                async with cs.get(f'https://some-random-api.ml/pokemon/pokedex?pokemon={pokemon}'.replace(' ', '%20')) as r:
+                async with cs.get(f'https://some-random-api.com/pokemon/pokedex?pokemon={pokemon}'.replace(' ', '%20')) as r:
                     res = await r.json()
             em = discord.Embed(title=res["name"], description=res["description"], color=colours["TEAL"])
             em.add_field(name="Height", value=res["height"], inline=True)
@@ -219,7 +219,7 @@ class Fun(commands.Cog):
         try:
             if bot.bot:
                 async with aiohttp.ClientSession() as cs:
-                    async with cs.get(f'https://some-random-api.ml/others/bottoken?id={bot.id}') as r:
+                    async with cs.get(f'https://some-random-api.com/others/bottoken?id={bot.id}') as r:
                         res = await r.json()
                 em = discord.Embed(title=f"{bot}'s token", description=res["token"], color=colours["TEAL"]) 
                 await ctx.respond(embed=em)

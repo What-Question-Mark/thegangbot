@@ -49,7 +49,7 @@ class AI(commands.Cog):
         try:
             messages.clear()
             messages.append(
-                {"role": "user", "content": message}
+                {"role": "user", "content": "You are a user in a discord server."}
             )
             await ctx.respond("Reset chat!")
         except Exception as e:

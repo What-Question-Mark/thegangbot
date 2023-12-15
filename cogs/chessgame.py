@@ -3,7 +3,7 @@ from discord import File
 from discord.ext import commands
 from discord.utils import get
 import chess, chess.svg
-from cairosvg import svg2png
+import cairosvg
 from PIL import Image
 
 f = open('config.json')
@@ -31,15 +31,14 @@ class Chess(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    '''
     @commands.slash_command(name="chess", description="play chess")
     async def chess(self, ctx:discord.ApplicationContext):
         try:
             board = chess.Board()
-            chess_author = ctx.author.id
-            svg2png(bytestring=chess.svg.board(board, colors=board_colours), write_to='chess.png')
+            chess_author = ctx.author
+            cairosvg.svg2png(bytestring=chess.svg.board(board, colors=board_colours), write_to='chess.png')
             await ctx.respond("Made chess game", ephemeral=True)
-            chess_message = await ctx.send(file=File('chess.png'))
+            chess_message = await ctx.send(chess_author.mention,file=File('chess.png'))
 
             def check(m):
                 return m.content.startswith("chess:") and m.author.id == ctx.author.id and m.channel.id == ctx.channel.id
@@ -60,21 +59,21 @@ class Chess(commands.Cog):
                             move = chess.Move.from_uci(content.replace("move=", ""))
                             board.push(move)
 
-                            svg2png(bytestring=chess.svg.board(board, colors=board_colours), write_to='chess.png')
+                            cairosvg.svg2png(bytestring=chess.svg.board(board, colors=board_colours), write_to='chess.png')
 
-                            for file in chess_message.attachments:
-                                file.remove()
-                            await chess_message.edit(file=File('chess.png'))
+                            await chess_message.delete()
+                            chess_message = await ctx.send(chess_author.mention,file=File('chess.png'))
                             await msg.delete()
                         else:
                             await ctx.send("That is an illegal move!")
                             await msg.delete()
                     else:
                         await msg.delete()
-                        await ctx.send("You need to provide a move (e.g. chess:move=d4)")
+                        await ctx.send("You need to provide a move (e.g. chess:move=e2e4)")
 
-                elif content.startswith("exit" or "end" or "stop"):
+                elif content.startswith("exit") or content.startswith("end") or content.startswith("stop"):
                     await ctx.send("Stoped the game of chess!")
+                    await chess_message.delete()
                     await msg.delete()
                     break
 
@@ -82,7 +81,6 @@ class Chess(commands.Cog):
             embed=discord.Embed(color=colours["RED"])
             embed.add_field(name="Failed", value=f"```py\n{e}\n```", inline=True)
             await ctx.respond(embed=embed)
-    '''
 
 def setup(bot):
     bot.add_cog(Chess(bot))

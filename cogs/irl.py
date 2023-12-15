@@ -64,7 +64,6 @@ class Irl(commands.Cog):
                 nonlocal i, button_back, button_next 
                 if interaction.user.id != ctx.author.id:
                     embed=discord.Embed(title="Failed", color=colours["RED"])
-                    embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
                     embed.add_field(name="Response:", value=f"```py\n{interaction.author}, you are not allowed to do this\n```", inline=False)
                     await interaction.followup.send(embed=embed)
                 else:
@@ -79,7 +78,6 @@ class Irl(commands.Cog):
                 nonlocal i, button_back, button_next 
                 if interaction.user.id != ctx.author.id:
                     embed=discord.Embed(title="Failed", color=colours["RED"])
-                    embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
                     embed.add_field(name="Response:", value=f"```py\n{interaction.author}, you are not allowed to do this\n```", inline=False)
                     await interaction.followup.send(embed=embed)
                 else:

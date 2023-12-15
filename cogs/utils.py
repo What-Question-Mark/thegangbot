@@ -43,9 +43,10 @@ class Utils(commands.Cog):
             else:
                 if user == None:
                     await ctx.channel.purge(limit=amount)
+                    await ctx.respond(f"Deleted {amount} messages")
                 else:
                     await ctx.channel.purge(limit=amount, check=lambda msg: msg.author.id == user.id)
-                await ctx.respond(f"Deleted {amount} messages from {user}")
+                    await ctx.respond(f"Deleted {amount} messages from {user}")
         except Exception as e:
             embed=discord.Embed(color=colours["RED"])
             embed.add_field(name="Failed", value=f"```py\n{e}\n```", inline=True)
@@ -64,7 +65,6 @@ class Utils(commands.Cog):
                 async def button_confirm_callback(interaction):
                     if interaction.user.id != ctx.author.id:
                         embed=discord.Embed(title="Failed", color=colours["RED"])
-                        embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
                         embed.add_field(name="Response:", value=f"```py\n{interaction.author}, you are not allowed to do this\n```", inline=False)
                         await interaction.followup.send(embed=embed)
                     else:
@@ -74,7 +74,6 @@ class Utils(commands.Cog):
                 async def button_deny_callback(interaction):
                     if interaction.user.id != ctx.author.id:
                         embed=discord.Embed(title="Failed", color=colours["RED"])
-                        embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
                         embed.add_field(name="Response:", value=f"```py\n{interaction.author}, you are not allowed to do this\n```", inline=False)
                         await interaction.followup.send(embed=embed)
                     else:
@@ -90,7 +89,6 @@ class Utils(commands.Cog):
                 await ctx.respond(embed=embed, view=view)
             else:
                 embed=discord.Embed(title="Failed", color=colours["RED"])
-                embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
                 embed.add_field(name="Response:", value=f"```py\nYou are not allowed to do this\n```", inline=False)
                 await ctx.respond(embed=embed)
         except Exception as e:
@@ -111,7 +109,6 @@ class Utils(commands.Cog):
                 async def button_confirm_callback(interaction):
                     if interaction.user.id != ctx.author.id:
                         embed=discord.Embed(title="Failed", color=colours["RED"])
-                        embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
                         embed.add_field(name="Response:", value=f"```py\n{interaction.author}, you are not allowed to do this\n```", inline=False)
                         await interaction.followup.send(embed=embed)
                     else:
@@ -121,7 +118,6 @@ class Utils(commands.Cog):
                 async def button_deny_callback(interaction):
                     if interaction.user.id != ctx.author.id:
                         embed=discord.Embed(title="Failed", color=colours["RED"])
-                        embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
                         embed.add_field(name="Response:", value=f"```py\n{interaction.author}, you are not allowed to do this\n```", inline=False)
                         await interaction.followup.send(embed=embed)
                     else:
@@ -137,7 +133,6 @@ class Utils(commands.Cog):
                 await ctx.respond(embed=embed, view=view)
             else:
                 embed=discord.Embed(title="Failed", color=colours["RED"])
-                embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
                 embed.add_field(name="Response:", value=f"```py\nYou are not allowed to do this\n```", inline=False)
                 await ctx.respond(embed=embed)
         except Exception as e:
@@ -167,7 +162,6 @@ class Utils(commands.Cog):
                         await ctx.send(newMsg)
             else:
                 embed=discord.Embed(title="Failed", color=colours["RED"])
-                embed.add_field(name="Code:", value=f"```py\n{code}\n```", inline=False)
                 embed.add_field(name="Response:", value=f"```py\nYou are not allowed to do this\n```", inline=False)
                 await ctx.respond(embed=embed)
         except Exception as e:
