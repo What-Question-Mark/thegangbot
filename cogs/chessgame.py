@@ -41,17 +41,18 @@ class Chess(commands.Cog):
             chess_message = await ctx.send(chess_author.mention,file=File('chess.png'))
 
             def check(m):
-                return m.content.startswith("chess:") and m.author.id == ctx.author.id and m.channel.id == ctx.channel.id
+                return m.content.startswith("chess!") and m.author.id == ctx.author.id and m.channel.id == ctx.channel.id
 
             while True:
                 msg = await self.bot.wait_for("message", check=check)
 
-                content = msg.content.replace("chess:", "")
+                content = msg.content.replace("chess!", "")
 
-                if content.startswith("moves" or "legalmoves" or "legalmove"):
-                    await ctx.send(board.legal_moves)
+                if content.startswith("moves") or content.startswith("legalmoves") or content.startswith("legalmove"):
+                    if chess_moves:
+                        await chess_moves.delete()
+                    chess_moves = await ctx.send(", ".join(str(x) for x in list(board.legal_moves)))
                     await msg.delete()
-                    break
 
                 elif content.startswith("move"):
                     if content.startswith("move="):
@@ -69,10 +70,12 @@ class Chess(commands.Cog):
                             await msg.delete()
                     else:
                         await msg.delete()
-                        await ctx.send("You need to provide a move (e.g. chess:move=e2e4)")
+                        await ctx.send("You need to provide a move (e.g. chess!move=e2e4)")
 
                 elif content.startswith("exit") or content.startswith("end") or content.startswith("stop"):
                     await ctx.send("Stoped the game of chess!")
+                    if chess_moves:
+                        await chess_moves.delete()
                     await chess_message.delete()
                     await msg.delete()
                     break
