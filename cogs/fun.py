@@ -20,17 +20,6 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.slash_command(name="ararou", description="Ararou")
-    async def ararou(self, ctx:discord.ApplicationContext, message=None):
-        try:
-            if message == None: 
-                message = "meow"
-            await ctx.respond(f"*~{message}*")
-        except Exception as e:
-            embed=discord.Embed(color=colours["RED"])
-            embed.add_field(name="Failed", value=f"```py\n{e}\n```", inline=True)
-            await ctx.respond(embed=embed)
-
     @commands.slash_command(name="echo", description="Display message on screen, writes each given STRING to standard output.")
     async def echo(self, ctx:discord.ApplicationContext, message):
         try:

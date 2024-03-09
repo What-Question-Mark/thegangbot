@@ -36,7 +36,7 @@ class Utils(commands.Cog):
                 embed=discord.Embed(color=colours["RED"])
                 embed.add_field(name="Failed", value=f"```py\nToo big of an amount\n```", inline=True)
                 await ctx.respond(embed=embed)
-            if amount <= 0:
+            elif amount <= 0:
                 embed=discord.Embed(color=colours["RED"])
                 embed.add_field(name="Failed", value=f"```py\nToo little of an amount\n```", inline=True)
                 await ctx.respond(embed=embed)

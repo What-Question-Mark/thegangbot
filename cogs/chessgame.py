@@ -37,8 +37,8 @@ class Chess(commands.Cog):
             board = chess.Board()
             chess_author = ctx.author
             cairosvg.svg2png(bytestring=chess.svg.board(board, colors=board_colours), write_to='chess.png')
-            await ctx.respond("Made chess game", ephemeral=True)
-            chess_message = await ctx.send(chess_author.mention,file=File('chess.png'))
+            await ctx.respond("Made chess game", ephemeral=True, delete_after=5)
+            chess_message = await ctx.send(f"{chess_author.mention}\n**Commands**\nchess!moves\nchess!move=\nchess!exit",file=File('chess.png'))
 
             def check(m):
                 return m.content.startswith("chess!") and m.author.id == ctx.author.id and m.channel.id == ctx.channel.id
@@ -49,8 +49,6 @@ class Chess(commands.Cog):
                 content = msg.content.replace("chess!", "")
 
                 if content.startswith("moves") or content.startswith("legalmoves") or content.startswith("legalmove"):
-                    if chess_moves:
-                        await chess_moves.delete()
                     chess_moves = await ctx.send(", ".join(str(x) for x in list(board.legal_moves)))
                     await msg.delete()
 
@@ -66,14 +64,14 @@ class Chess(commands.Cog):
                             chess_message = await ctx.send(chess_author.mention,file=File('chess.png'))
                             await msg.delete()
                         else:
-                            await ctx.send("That is an illegal move!")
+                            await ctx.send("That is an illegal move!", delete_after=5)
                             await msg.delete()
                     else:
+                        await ctx.send("You need to provide a move (e.g. chess!move=e2e4)", delete_after=5)
                         await msg.delete()
-                        await ctx.send("You need to provide a move (e.g. chess!move=e2e4)")
 
                 elif content.startswith("exit") or content.startswith("end") or content.startswith("stop"):
-                    await ctx.send("Stoped the game of chess!")
+                    await ctx.send("Stoped the game of chess!", delete_after=5)
                     if chess_moves:
                         await chess_moves.delete()
                     await chess_message.delete()
@@ -83,7 +81,7 @@ class Chess(commands.Cog):
         except Exception as e:
             embed=discord.Embed(color=colours["RED"])
             embed.add_field(name="Failed", value=f"```py\n{e}\n```", inline=True)
-            await ctx.respond(embed=embed)
+            await ctx.respond(embed=embed, delete_after=5)
 
 def setup(bot):
     bot.add_cog(Chess(bot))

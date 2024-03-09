@@ -18,7 +18,7 @@ bot = discord.Bot(intents=discord.Intents.all())
 @bot.event
 async def on_ready():
     print(f'\n{colors.OKGREEN}Logged in as {bot.user}{colors.END}')
-    await bot.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.watching, name='the gang'))
+    await bot.change_presence(status=discord.Status.idle, activity=discord.Activity(type=discord.ActivityType.watching, name='you at night'))
 
 print('\n')
 

@@ -37,7 +37,7 @@ class Party(commands.Cog):
                 "None",
                 "Other"
             ]
-        ),
+        ), # type: ignore
         userone: discord.User,
         usertwo: discord.User=None,
         userthree: discord.User=None
